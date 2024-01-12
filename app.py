@@ -13,6 +13,7 @@ from ultralytics import YOLO
 import cv2
 import pandas as pd
 from num2words import num2words
+from bing_image_urls import bing_image_urls
 
 global capture
 capture = 0
@@ -88,7 +89,9 @@ def ingredient_detection(image):
                 'instructions': instructions_list
             })
         for recipe in recipes:
-            recipe['image'] = f"/static/recipe_images/{recipe['image']}.jpg"
+            # recipe['image'] = f"/static/recipe_images/{recipe['image']}.jpg"
+            recipe['image'] = bing_image_urls(recipe['image'], limit=1)[0]
+
     else:
         recipes.append('none')
     return recipes
@@ -117,9 +120,9 @@ if __name__ == '__main__':
     app.run()
 
 camera.release()
-# if(os.path.isfile("static/shot.png")):
-#     os.remove('./static/shot.png')
-# if(os.path.isfile("static/detect/shot.png")):
-#     os.remove("static/detect/shot.png")
-#     os.rmdir("static/detect")
+if(os.path.isfile("static/shot.png")):
+    os.remove('./static/shot.png')
+if(os.path.isfile("static/detect/shot.png")):
+    os.remove("static/detect/shot.png")
+    os.rmdir("static/detect")
 cv2.destroyAllWindows()

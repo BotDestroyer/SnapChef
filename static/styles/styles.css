@@ -101,6 +101,10 @@ h1, h2{
 .no-ing{
     margin-top:-3vw;
 }
+.card-img-top{
+    height:60%;
+    object-fit: cover;
+}
 
 @media screen and (max-width: 800px) {
     .lg-image{
