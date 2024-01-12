@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins&display=swap');
+.lg-image{
+    border-radius: 2.5vw;
+    height:20vw;
+    border: 0.5rem solid #5C4033;
+}
+body{
+    background-color: #776B5D !important;
+}
+h1, h2{
+    font-family: 'Libre Franklin', sans-serif;
+    text-align: center;
+    color: #EBE3D5;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:3.5vw;
+    margin-bottom: 3.5vw;
+}
+.title{
+    font-size:4.5rem !important;
+}
+.subtitle{
+    margin-bottom:2vw;
+}
+#button{
+    background-color: #EBE3D5;
+    border: none;
+    border-radius: 10px;
+    color: #776B5D;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 1.3vw;
+    font-weight: 700;
+    height: 3.6vw;
+    margin-top: 1vw;
+    text-decoration: none;
+    width: 10.5vw;
+    margin-bottom: 5vw;
+}
+#button:hover{
+    background-color: #5C4033;
+    color: #EBE3D5;
+}
+.flex-container{
+    display: flex;
+    justify-content: space-evenly;
+    width:90vw
+}
+.recipes{
+    width:40vw;
+}
+.detected-header{
+    margin-top: 3vw;
+}
+.objects{
+    color: #EBE3D5;
+    list-style-type: none;
+    font-size:1.8rem;
+    text-align: center;
+}
+.card{
+    background-color: #EBE3D5 !important;
+    border: 0.3rem solid #5C4033 !important;
+    width:15rem;
+    height:17rem;
+    flex:1;
+}
+.card-title{
+    color:#776B5D !important;
+}
+
+.card-grid{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    gap:1rem;
+}
+.modal-content{
+    background-color: #EBE3D5 !important;
+}
+.modal-header{
+    border-bottom: 3px solid #5C4033 !important;
+    color: #776B5D !important;
+}
+.modal-body{
+    color: #776B5D !important;
+}
+.modal-title{
+    color:#5C4033;
+}
+.btn{
+    background-color:#776B5D !important;
+    color:#EBE3D5 !important;
+}
+.btn:hover{
+    background-color: #5C4033 !important;
+}
+.no-ing{
+    margin-top:-3vw;
+}
+
+@media screen and (max-width: 800px) {
+    .lg-image{
+        height:50vw;
+    }
+    #button{
+        width:30vw;
+        height:10vw;
+        font-size:4vw;
+        margin-top:4vw;
+    }
+    .title{
+        font-size: 3.7rem !important;
+    }
+    .container{
+        margin-top:8vw;
+    }
+    .subtitle{
+        font-size: 1.8rem;
+        line-height: 3rem;
+    }
+    .flex-container{
+        flex-wrap: wrap;
+    }
+    .detected-header{
+        margin-top:5vw;
+    }
+    h2:not(.jingle){
+        margin-top:4vw;
+    }
+}
