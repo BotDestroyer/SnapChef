@@ -24,7 +24,7 @@
                     {% if recipes != ['none'] %}
                     {% if captured_image %}
                     <h2>Processed Image</h2>
-                    <img class="lg-image" src="{{ url_for('static', filename='detect/' + detect_image.split('/')[-1]) }}" alt="Captured Image">
+                    <img class="lg-image" src="{{ url_for('static', filename=detect_image.split('/')[-1]) }}" alt="Captured Image">
                     <h2 class="detected-header">Ingredients Detected</h2>
                     <ul class="list-unstyled">
                         {% for class in classes %}

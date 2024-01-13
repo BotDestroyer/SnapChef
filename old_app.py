@@ -1,20 +1,23 @@
+# TODO:
+#  mobile friendliness
+#  display when "no ingredients" is detected (DONE)
+#  reset on refresh
+#  add upload functionality (maybe also example image)
+#  add new ML model
+#  option to load more recipes (optional)
+
 from flask import Flask, render_template, Response, request
 import os
 import time
+from ultralytics import YOLO
 import cv2
 import pandas as pd
 from num2words import num2words
 from bing_image_urls import bing_image_urls
-from roboflow import Roboflow
-import re
 
-rf = Roboflow(api_key="9odmIusQuu9SiPLzm0Ur")
-project = rf.workspace().project("food-ingredients-image-detection_team4")
-model = project.version(1).model
-
-classes=[]
 global capture
 capture = 0
+classes=[]
 
 try:
     os.mkdir('./static')
@@ -25,8 +28,7 @@ app = Flask(__name__, template_folder='./templates')
 camera = cv2.VideoCapture(0)
 
 captured_image_path = os.path.sep.join(['static', "shot.png"])
-detect_image_path = os.path.sep.join(['static', "predicted_shot.png"])
-
+detect_image_path = os.path.sep.join(['static', 'detect', "shot.png"])
 def gen_frames():
     global capture
     while True:
@@ -45,19 +47,23 @@ def gen_frames():
         else:
             pass
 
-
+classNames = ["test","almond", "apple", "avocado", "beef", "bell pepper", "blueberry", "bread", "broccoli", "butter",
+                 "carrot", "cheese", "chilli", "cookie", "corn", "cucumber", "egg", "eggplant", "garlic", "lemon",
+                 "milk","mozarella cheese", "mushroom", "mussel", "onion", "oyster", "parmesan cheese", "pasta", "pork rib",
+                 "potato", "salmon", "scallop", "shrimp", "strawberry", "toast bread", "tomato", "tuna", "yogurt"]
 def ingredient_detection(image):
-    global classes
     classes.clear()
     recipes = []
-    file = (model.predict(image, confidence=40, overlap=30).json())
-
-    if (os.path.isfile("static/predicted_shot.png")):
-        os.remove("static/predicted_shot.png")
-
-    model.predict(image, confidence=40, overlap=30).save("static/predicted_shot.png")
-
-    classes = [re.sub(r'[^a-zA-Z]', '', prediction["class"]) for prediction in file["predictions"]]
+    model = YOLO("weights/best.pt")
+    if os.path.isfile("static/detect/shot.png"):
+        os.remove("static/detect/shot.png")
+        os.rmdir("static/detect")
+    results = model(image, save=True, project="static", name="detect")
+    for r in results:
+        boxes = r.boxes
+        for box in boxes:
+            cls = int(box.cls[0])
+            classes.append(classNames[cls])
 
     if(len(classes) != 0):
         df = pd.read_csv("recipes/recipes.csv")
@@ -83,6 +89,7 @@ def ingredient_detection(image):
                 'instructions': instructions_list
             })
         for recipe in recipes:
+            # recipe['image'] = f"/static/recipe_images/{recipe['image']}.jpg"
             recipe['image'] = bing_image_urls(recipe['image'], limit=1)[0]
 
     else:
@@ -115,6 +122,7 @@ if __name__ == '__main__':
 camera.release()
 if(os.path.isfile("static/shot.png")):
     os.remove('./static/shot.png')
-if(os.path.isfile("static/predicted_shot.png")):
-    os.remove("static/predicted_shot.png")
+if(os.path.isfile("static/detect/shot.png")):
+    os.remove("static/detect/shot.png")
+    os.rmdir("static/detect")
 cv2.destroyAllWindows()
