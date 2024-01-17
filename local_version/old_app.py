@@ -20,7 +20,7 @@ capture = 0
 classes=[]
 
 try:
-    os.mkdir('./static')
+    os.mkdir('../static')
 except OSError as error:
     pass
 
@@ -66,7 +66,7 @@ def ingredient_detection(image):
             classes.append(classNames[cls])
 
     if(len(classes) != 0):
-        df = pd.read_csv("recipes/recipes.csv")
+        df = pd.read_csv("../recipes/recipes.csv")
         filtered_df = df[df['Ingredients'].apply(lambda x: all(label in x for label in classes))]
 
         for index, row in filtered_df.head(6).iterrows():

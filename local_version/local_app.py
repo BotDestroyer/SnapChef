@@ -14,29 +14,28 @@ project = rf.workspace().project("food-ingredients-image-detection_team4")
 model = project.version(1).model
 
 try:
-    os.mkdir('./static')
+    os.mkdir('../static')
 except OSError as error:
     pass
 
 app = Flask(__name__, template_folder='./templates')
 app.secret_key = '5765ho7Jeff'
 
-global capture
+global image_path, detected_image_path, capture
 capture = 0
 classes=[]
 def ingredient_detection(image):
     global classes
     classes.clear()
     recipes = []
+
     file = (model.predict(image, confidence=40, overlap=30).json())
-    with open('static/uploads/detected_path.txt', 'r') as text_file:
-        detect_path = text_file.read().rstrip()
-    model.predict(image, confidence=40, overlap=30).save(detect_path)
+    model.predict(image, confidence=40, overlap=30).save(detected_image_path)
 
     classes = [re.sub(r'[^a-zA-Z]', '', prediction["class"]) for prediction in file["predictions"]]
 
     if(len(classes) != 0):
-        df = pd.read_csv("recipes/recipes.csv")
+        df = pd.read_csv("../recipes/recipes.csv")
         filtered_df = df[df['Ingredients'].apply(lambda x: all(label in x for label in classes))]
 
         for index, row in filtered_df.head(6).iterrows():
@@ -75,16 +74,11 @@ def tasks():
         if request.form.get('click') == 'Capture':
             global capture
             capture = 1
-    print("searching for path")
-    with open('static/uploads/path.txt', 'r') as file:
-        read_path = file.read().rstrip()
-    with open('static/uploads/detected_path.txt', 'r') as file:
-        detect_path = file.read().rstrip()
-    print(read_path)
-    recipes = ingredient_detection(read_path)
+    time.sleep(0.5)
+    if(os.path.isfile(image_path)):
+        recipes = ingredient_detection(image_path)
     print("task end")
-    return render_template('index.html',captured_image=read_path,detect_image=detect_path,classes=classes,recipes=recipes)
-
+    return render_template('index.html',captured_image=image_path,detect_image=detected_image_path,classes=classes,recipes=recipes)
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     print("upload start")
@@ -93,16 +87,11 @@ def upload_image():
     cleaned_base64 = base64_string.split(",", 1)[-1]
     cleaned_base64_bytes = cleaned_base64.encode('utf-8')
 
-    image_path = f"static/uploads/captured_{uuid.uuid4()}.png"
-    original_uuid = image_path.split('_')[-1].split('.')[0]
-    detected_image_path = f"static/uploads/detected_captured_{original_uuid}.png"
-    print("path set")
-    print("path is set to " + image_path)
+    global image_path, detected_image_path
 
-    with open("static/uploads/path.txt", "w") as text_file:
-        text_file.write(image_path)
-    with open("static/uploads/detected_path.txt", "w") as text_file:
-        text_file.write(detected_image_path)
+    image_path = os.path.join('../static', 'uploads', f"captured_{uuid.uuid4()}.png")
+    original_uuid = image_path.split('_')[-1].split('.')[0]
+    detected_image_path = os.path.join('../static', 'uploads', f"detected_captured_{original_uuid}.png")
 
     with open(image_path, "wb") as fh:
         fh.write(base64.decodebytes(cleaned_base64_bytes))

@@ -1,16 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins&display=swap');
-.lg-image{
+.lg-image, #video{
     border-radius: 2.5vw;
     height:20vw;
-    border: 0.5rem solid #5C4033;
+    width:auto;
+    border: 0.5rem solid #4F6F52;
+}
+@media (pointer:none), (pointer:coarse) {
+    .lg-image, #video{
+        height:90vw !important;
+        width:auto;
+    }
 }
 body{
-    background-color: #776B5D !important;
+    background-color: #739072 !important;
 }
 h1, h2{
     font-family: 'Libre Franklin', sans-serif;
     text-align: center;
-    color: #EBE3D5;
+    color: #D2E3C8;
+}
+.results{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .container{
     display: flex;
@@ -25,11 +37,11 @@ h1, h2{
 .subtitle{
     margin-bottom:2vw;
 }
-#button{
-    background-color: #EBE3D5;
+#startbutton{
+    background-color: #D2E3C8;
     border: none;
     border-radius: 10px;
-    color: #776B5D;
+    color: #4F6F52;
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.3vw;
     font-weight: 700;
@@ -39,8 +51,8 @@ h1, h2{
     width: 10.5vw;
     margin-bottom: 5vw;
 }
-#button:hover{
-    background-color: #5C4033;
+#startbutton:hover{
+    background-color: #4F6F52;
     color: #EBE3D5;
 }
 .flex-container{
@@ -55,20 +67,20 @@ h1, h2{
     margin-top: 3vw;
 }
 .objects{
-    color: #EBE3D5;
+    color: #D2E3C8;
     list-style-type: none;
     font-size:1.8rem;
     text-align: center;
 }
 .card{
-    background-color: #EBE3D5 !important;
-    border: 0.3rem solid #5C4033 !important;
+    background-color: #D2E3C8 !important;
+    border: 0.3rem solid #4F6F52 !important;
     width:15rem;
     height:17rem;
     flex:1;
 }
 .card-title{
-    color:#776B5D !important;
+    color:#4F6F52 !important;
 }
 
 .card-grid{
@@ -79,24 +91,24 @@ h1, h2{
     gap:1rem;
 }
 .modal-content{
-    background-color: #EBE3D5 !important;
+    background-color: #D2E3C8 !important;
 }
 .modal-header{
-    border-bottom: 3px solid #5C4033 !important;
-    color: #776B5D !important;
+    border-bottom: 3px solid #4F6F52 !important;
+    color: #4F6F52 !important;
 }
 .modal-body{
-    color: #776B5D !important;
+    color: #4F6F52 !important;
 }
 .modal-title{
-    color:#5C4033;
+    color:#4F6F52;
 }
 .btn{
-    background-color:#776B5D !important;
-    color:#EBE3D5 !important;
+    background-color:#4F6F52 !important;
+    color:#D2E3C8 !important;
 }
 .btn:hover{
-    background-color: #5C4033 !important;
+    background-color: #364d38 !important;
 }
 .no-ing{
     margin-top:-3vw;
@@ -106,11 +118,26 @@ h1, h2{
     object-fit: cover;
 }
 
-@media screen and (max-width: 800px) {
-    .lg-image{
-        height:50vw;
+@media screen and (max-width: 1500px) {
+    .lg-image, #video{
+        height:30vw;
+        width: auto;
     }
-    #button{
+}
+
+@media screen and (max-width: 1100px) {
+    .lg-image, #video{
+        height:40vw;
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .lg-image, #video{
+        height:50vw;
+        width: auto;
+    }
+    #startbutton{
         width:30vw;
         height:10vw;
         font-size:4vw;
@@ -135,4 +162,7 @@ h1, h2{
     h2:not(.jingle){
         margin-top:4vw;
     }
+}
+#canvas{
+    display: none;
 }

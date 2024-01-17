@@ -14,9 +14,9 @@
             <h1 class="title">SnapChef</h1>
             <h2 class="subtitle jingle">Snap, Sizzle, Savor</h2>
             <div class="camera">
-                <video id="video" width="auto" height="auto" autoplay playsinline>Video stream not available.</video>
+                <video id="video" width="auto" height="auto">Video stream not available.</video>
             </div>
-            <form method="post" id="captureForm" action="/requests">
+            <form method="post" action="{{ url_for('tasks') }}">
                 <button id="startbutton">Snap</button>
             </form>
             {% if recipes == ['none'] %}
